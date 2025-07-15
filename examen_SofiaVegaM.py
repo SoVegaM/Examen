@@ -75,7 +75,22 @@ def eliminar_producto():
         continuar = input("¿Desea eliminar otro producto? (si/no): ").lower()
         if continuar != "si":
             break
-    
+
+def ver_todos_los_productos():
+    print("\nListado de todos los productos disponibles:\n")
+    for codigo, datos in productos.items():
+        if codigo in stock:
+            precio, unidades = stock[codigo]
+            print(f"- Modelo: {codigo}")
+            print(f"  Marca: {datos[0]}")
+            print(f"  Pantalla: {datos[1]} pulgadas")
+            print(f"  RAM: {datos[2]}")
+            print(f"  Almacenamiento: {datos[3]} {datos[4]}")
+            print(f"  Procesador: {datos[5]}")
+            print(f"  Gráfica: {datos[6]}")
+            print(f"  Precio: ${precio}")
+            print(f"  Stock disponible: {unidades}")
+            print("-" * 40)    
 # ==============================
  # MENÚ PRINCIPAL
  # =============================
@@ -86,8 +101,9 @@ def menu():
         print("1. Stock Marca.")
         print("2. Busqueda por precio.")
         print("3. Eliminar producto.")
-        print("4. Salir.")
-        opcion = input("Seleccione una opción (1-4): ")
+        print("3. Ver todos los productos.")
+        print("5. Salir.")
+        opcion = input("Seleccione una opción (1-5): ")
         
         if opcion == "1":
             stock_marca()
@@ -96,6 +112,8 @@ def menu():
         elif opcion == "3":
                     eliminar_producto()
         elif opcion == "4":
+                    ver_todos_los_productos()
+        elif opcion == "5":
             print("Programa finalizado.")
             break
         else:
