@@ -14,7 +14,9 @@ stock = {
         'fgdxFHD': [664990,21], '123FHD': [290890,32], '342FHD': [444990,7],
         'GF75HD': [749990,2], 'UWU131HD': [349990,1], 'FS1230HD': [249990,0]
     }
- #.................................
+
+
+#-------------------------------------------------------
 
 def stock_marca():
     marca = input('Ingrese marca a consultar: ').upper()
@@ -33,6 +35,8 @@ def stock_marca():
     else:
         print("No se encontraron productos de esa marca.")
 
+
+#-------------------------------------------------------
 def Busqueda_por_RAM():
     try:
         min_ram = int(input('Ingrese RAM mínima (en GB): '))
@@ -59,7 +63,7 @@ def Busqueda_por_RAM():
         print("No se encontraron productos que cumplan los criterios.")
             
         
-#         
+#-------------------------------------------------------       
 
 
 def eliminar_producto():
@@ -76,6 +80,8 @@ def eliminar_producto():
         if continuar != "si":
             break
 
+#-------------------------------------------------------
+
 def ver_todos_los_productos():
     print("\nListado de todos los productos disponibles:\n")
     for codigo, datos in productos.items():
@@ -90,7 +96,54 @@ def ver_todos_los_productos():
             print(f"  Gráfica: {datos[6]}")
             print(f"  Precio: ${precio}")
             print(f"  Stock disponible: {unidades}")
-            print("-" * 40)    
+            print("-" * 40)   
+
+#-------------------------------------------------------
+def agregar_producto():
+    modelo = input("Ingrese el código del nuevo modelo: ").upper()
+
+    if modelo in productos:
+        print("Ese modelo ya existe.")
+        return
+
+    marca = input("Ingrese la marca: ").upper()
+    pantalla = input("Tamaño de pantalla en pulgadas (ej: 15.6): ")
+    ram = input("Cantidad de RAM (ej: 8GB): ").upper()
+    tipo_alm = input("Tipo de almacenamiento (DD o SSD): ").upper()
+    capacidad = input("Capacidad de almacenamiento (ej: 1T o 512GB): ").upper()
+    procesador = input("Procesador (ej: Intel Core i5): ").title()
+    grafica = input("Gráfica (ej: Nvidia GTX1050 o Integrada): ").title()
+
+    try:
+        precio = int(input("Precio del producto: "))
+        stock_actual = int(input("Cantidad en stock: "))
+    except ValueError:
+        print("Precio y stock deben ser números enteros.")
+        return
+
+    productos[modelo] = [marca, float(pantalla), ram, tipo_alm, capacidad, procesador, grafica]
+    stock[modelo] = [precio, stock_actual]
+
+    print(f"Producto {modelo} agregado correctamente.")
+
+
+#-------------------------------------
+
+def modificar_stock():
+    modelo = input("Ingrese el modelo del producto a modificar: ").upper()
+    if modelo in stock:
+        try:
+            nuevo_stock = int(input(f"Ingrese nuevo stock para el modelo {modelo}: "))
+            if nuevo_stock < 0:
+                print("El stock no puede ser negativo.")
+            else:
+                stock[modelo][1] = nuevo_stock
+                print(f"Stock del modelo {modelo} actualizado a {nuevo_stock} unidades.")
+        except ValueError:
+            print("Debe ingresar un número entero válido.")
+    else:
+        print("El modelo no existe en el sistema.")
+
 # ==============================
  # MENÚ PRINCIPAL
  # =============================
@@ -101,9 +154,11 @@ def menu():
         print("1. Stock Marca.")
         print("2. Busqueda por precio.")
         print("3. Eliminar producto.")
-        print("3. Ver todos los productos.")
-        print("5. Salir.")
-        opcion = input("Seleccione una opción (1-5): ")
+        print("4. Ver todos los productos.")
+        print("5. Agregar nuevo producto")
+        print("6. producto a modificar")
+        print("7. Salir.")
+        opcion = input("Seleccione una opción (1-6): ")
         
         if opcion == "1":
             stock_marca()
@@ -114,8 +169,13 @@ def menu():
         elif opcion == "4":
                     ver_todos_los_productos()
         elif opcion == "5":
+                    agregar_producto()
+        elif opcion == "5":
+                    modificar_stock()            
+        elif opcion == "7":
             print("Programa finalizado.")
             break
+        
         else:
             print("Opción no válida.")
  #
